@@ -6,10 +6,11 @@ const {
   getDelivery,
   updateStatus
 } = require('../controller/deliveryController');
+const authenticateToken = require('../middleware/authMiddleware');
 
-router.post('/', createDelivery);
-router.get('/', listDeliveries);
-router.get('/:id', getDelivery);
-router.patch('/:id/status', updateStatus);
+router.post('/', authenticateToken, createDelivery);
+router.get('/', authenticateToken, listDeliveries);
+router.get('/:id', authenticateToken, getDelivery);
+router.patch('/:id/status', authenticateToken, updateStatus);
 
 module.exports = router;

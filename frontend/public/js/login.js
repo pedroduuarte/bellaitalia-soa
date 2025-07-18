@@ -9,17 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const showLogin = document.getElementById("showLogin");
   const showRegister = document.getElementById("showRegister");
 
-  // Abrir modal
+  // abrir modal e fechar modal
   btnOpenLogin.onclick = () => {
     modal.classList.remove("hidden");
     loginSection.classList.remove("hidden");
     registerSection.classList.add("hidden");
   };
 
-  // Fechar modal
+
   btnClose.onclick = () => modal.classList.add("hidden");
 
-  // Alternar entre login e cadastro
+  // alternar entre login e cadastro
   showRegister.onclick = () => {
     loginSection.classList.add("hidden");
     registerSection.classList.remove("hidden");
@@ -46,7 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erro ao logar");
 
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userName", data.name);
+
       document.getElementById("loginMessage").textContent = "Login bem-sucedido!";
+
+      window.location.href = "/menu.html"
     } catch (err) {
       document.getElementById("loginMessage").textContent = err.message;
     }
@@ -81,3 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    window.location.href = "/index.html";
+}
