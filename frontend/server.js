@@ -25,7 +25,8 @@ app.use('/api/delivery', createProxyMiddleware({
 // endpoint auth-service
 app.use('/api/auth', createProxyMiddleware({
     target: 'http://localhost:3002',
-    changeOrigin: true
+    changeOrigin: true,
+
 })) 
 
 // endpoint payment-service

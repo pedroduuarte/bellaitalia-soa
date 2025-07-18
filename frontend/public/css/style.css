@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+#btnOpenLogin {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: #2c7be5;
+  color: white;
+  border-radius: 5px;
+  margin: 20px;
+  transition: background-color 0.3s ease;
+}
+#btnOpenLogin:hover {
+  background-color: #1a5fc1;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Conteúdo do modal */
+.modal-content {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 8px;
+  width: 350px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #444;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+.close:hover {
+  color: #000;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-weight: 500;
+  color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #2c7be5;
+}
+
+form button[type="submit"] {
+  margin-top: 15px;
+  padding: 10px 0;
+  background-color: #2c7be5;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #1a5fc1;
+}
+
+p {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+p a {
+  color: #2c7be5;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+p a:hover {
+  color: #1a5fc1;
+}
+
+#loginMessage,
+#registerMessage {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #2bff00; 
+}

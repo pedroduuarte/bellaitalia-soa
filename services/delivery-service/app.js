@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/delivery', deliveryRoutes);
+app.use('/', deliveryRoutes);
 
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, () => {
