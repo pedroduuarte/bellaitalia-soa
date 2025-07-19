@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM carregado");
   const modal = document.getElementById("loginModal");
   const btnOpenLogin = document.getElementById("btnOpenLogin");
+  console.log("Botão encontrado:", btnOpenLogin);
   const btnClose = document.querySelector(".close");
 
   const loginSection = document.getElementById("loginSection");
