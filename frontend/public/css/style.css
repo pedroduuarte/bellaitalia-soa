@@ -10,13 +10,14 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Hero section */
-.hero {
+/* Site Header */
+.site-header {
   background: url('/frontend/public/images/background-pizza.jpg') no-repeat center center/cover;
   height: 100vh;
   color: white;
   position: relative;
 }
+
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.6);
