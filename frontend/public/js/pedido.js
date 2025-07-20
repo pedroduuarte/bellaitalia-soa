@@ -1,65 +1,174 @@
-document.addEventListener("DOMContentLoaaded", async () => {
-    const carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
-    const usuario = JSON.parse(localStorage.getItem('userName')) || {};
+let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-    exibirItensPedidos(carrinho);
-    calcularTotal(carrinho);
+document.addEventListener('DOMContentLoaded', async () => {
+    atualizarContadorCarrinho();
+    atualizarTotais();
+    exibirItensPedido();
+    try {
+        const response = await fetch('/api/cardapio');
+        if (!response.ok) throw new Error('Erro ao obter cardápio');
 
-    document.getElementById('finalizar-pedido').addEventListener('click', async () => {
-        if (carrinho.length === 0) {
-            alert('Seu carrinho está vazio!');
-            return;
-        }
+        const { data: cardapio } = await response.json();
+        const pizzasTradicionais = cardapio.filter(p => p.tipo === "PizzaTradicional");
+        const pizzasDoces = cardapio.filter(p => p.tipo === "PizzaDoce");
 
-        const endereco = document.getElementById('endereco').value;
-        const metodoPagamento = document.querySelector('input[name="pagamento"]:checked').value;
+        renderizarCardapio("tradicionais", pizzasTradicionais);
+        renderizarCardapio("doces", pizzasDoces);
+        adicionarEventosPedido();
+        atualizarContadorCarrinho();
 
-        if (!endereco) {
-            alert('Por favor, informe o endereço de entrega.');
-            return;
-        }
+    } catch (error) {
+        console.error("Erro:", error);
+        document.getElementById("menu-container").innerHTML = `
+      <div class="error-message">Erro ao carregar o cardápio</div>
+    `;
+    }
 
-        try {
-            const pedidoResponse = await criarPedido(carrinho);
-
-            const entregaResponse = await criarEntrega({
-                pedidoId: pedidoResponse.id,
-                rua: documento.getElementById('rua').value,
-                bairro: documento.getElementById('bairro').value,
-                numero: documento.getElementById('numero').value,
-            });
-
-            const pagamentoResponse = await processarPagamento({
-                pedidoId: pedidoResponse.id,
-                metodo: metodoPagamento,
-                valor: calcularTotal(carrinho, true)
-            });
-
-            localStorage.removeItem('carrinho');
-        } catch (error) {
-            console.error('Erro ao finalizar pedido:', error);
-            alert('Erro ao finalizar pedido. Tente novamente.');
-        }
-    });
+    // Event Listeners
+    document.getElementById('carrinho-icon')?.addEventListener('click', mostrarModalCarrinho);
+    document.getElementById('fechar-modal')?.addEventListener('click', esconderModalCarrinho);
+    document.getElementById('finalizar-pedido-botao')?.addEventListener('click', finalizarPedido);
+    document.getElementById('finalizar-pedido')?.addEventListener('click', irParaPaginaPedido);
 });
 
-function exibirItensPedidos(itens) {
-    const container = document.getElementById('itens-pedido');
-    container.innerHTML = itens.map(item => `
+// Funções auxiliares
+function renderizarCardapio(secaoId, pizzas) {
+    const container = document.getElementById(secaoId);
+    if (!container) return;
+
+    container.innerHTML = pizzas.map(pizza => `
+    <div class="pizza-card" data-id="${pizza.id}">
+      <h3>${pizza.titulo}</h3>
+      <p class="descricao">${pizza.descricao}</p>
+      <div class="pizza-footer">
+        <span class="preco">R$ ${pizza.valor.toFixed(2)}</span>
+        <button class="btn-pedir" data-id="${pizza.id}">Pedir</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function buscarPizzaPorId(id) {
+    try {
+        const response = await fetch(`/api/cardapio/${id}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) return null;
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao buscar pizza:', error);
+        return null;
+    }
+}
+
+function adicionarAoCarrinho(pizzaId) {
+    buscarPizzaPorId(pizzaId).then(pizza => {
+        if (pizza) {
+            carrinho.push({
+                id: pizza.id,
+                titulo: pizza.titulo,
+                descricao: pizza.descricao,
+                valor: parseFloat(pizza.valor)
+            });
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarContadorCarrinho();
+            atualizarTotais();
+            alert(`Pizza "${pizza.titulo}" adicionada ao carrinho!`);
+        }
+    });
+}
+
+function atualizarContadorCarrinho() {
+    const countElement = document.getElementById('carrinho-count');
+    if (countElement) {
+        countElement.textContent = carrinho.length;
+    }
+}
+
+function mostrarModalCarrinho() {
+    const lista = document.getElementById('carrinho-itens');
+    if (lista) {
+        lista.innerHTML = carrinho.map(item => `
+      <li>${item.titulo} - R$ ${item.valor.toFixed(2)}</li>
+    `).join('');
+    }
+    document.getElementById('carrinho-modal').classList.add('show');
+}
+
+function esconderModalCarrinho() {
+    document.getElementById('carrinho-modal').classList.remove('show');
+}
+
+function irParaPaginaPedido() {
+    if (carrinho.length === 0) {
+        alert('Seu carrinho está vazio!');
+        return;
+    }
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    atualizarTotais();
+    window.location.href = '/pedido';
+}
+
+async function finalizarPedido() {
+    try {
+        // Implementar lógica de finalização
+        const response = await fetch('/api/pedidos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                itens: carrinho,
+                endereco: document.getElementById('endereco').value,
+                pagamento: document.querySelector('input[name="pagamento"]:checked').value
+            })
+        });
+
+        if (!response.ok) throw new Error('Erro ao finalizar pedido');
+
+        localStorage.removeItem('carrinho');
+        window.location.href = '/confirmacao';
+
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao finalizar pedido: ' + error.message);
+    }
+}
+
+function exibirItensPedido() {
+    const itensContainer = document.getElementById('itens-pedido');
+    if (!itensContainer) return;
+
+    if (carrinho.length === 0) {
+        itensContainer.innerHTML = '<p class="carrinho-vazio">Seu carrinho está vazio</p>';
+        return;
+    }
+
+    itensContainer.innerHTML = carrinho.map(item => `
         <div class="item-pedido">
             <div class="item-info">
                 <h4>${item.titulo}</h4>
-                <p>${item.descricao}</p>
+                <p class="item-descricao">${item.descricao}</p>
             </div>
             <div class="item-preco">R$ ${item.valor.toFixed(2)}</div>
         </div>
     `).join('');
 }
 
-function calcularTotal(itens, formatar = false) {
-    const subtotal = itens.reduce((total, item) => total + item.valor, 0);
-    const taxaEntrega = 5.00;
-    const total = subtotal + taxaEntrega;
+function atualizarTotais() {
+  const subtotalElement = document.getElementById('subtotal');
+  const taxaElement = document.getElementById('taxa-entrega');
+  const totalElement = document.getElementById('total');
+  
+  if (!subtotalElement || !taxaElement || !totalElement) return;
 
-    document.getElementById()
+  const subtotal = carrinho.reduce((total, item) => total + item.valor, 0);
+  const taxaEntrega = 5.00;
+  const total = subtotal + taxaEntrega;
+
+  subtotalElement.textContent = `R$ ${subtotal.toFixed(2)}`;
+  taxaElement.textContent = `R$ ${taxaEntrega.toFixed(2)}`;
+  totalElement.textContent = `R$ ${total.toFixed(2)}`;
 }
