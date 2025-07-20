@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/carrinho-modal.css">
     <script defer src="/js/menu.js"></script>
     <script src="/js/login.js" defer></script>
     <title>Cardápio</title>
@@ -25,6 +26,12 @@
                     <li><a href="/reservas.html">Sobre Nós</a></li>
                     <li><a href="/contato.html">Contato</a></li>
                     <button id="btnOpenLogin" class="btn btn-login">Login</button>
+                    <li>
+                        <div id="carrinho-icon" class="carrinho-icon">
+                            <img src="/images/cart.png" alt="carrinho" />
+                            <span id="carrinho-count">0</span>
+                        </div>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -40,6 +47,7 @@
             <div class="pizza-grid" id="doces"></div>
         </section>
     </div>
+
     <footer>
         <div class="footer-container">
             <div class="footer-column">
@@ -71,6 +79,14 @@
             </div>
         </div>
     </footer>
+    <div id="carrinho-modal" class="carrinho-modal">
+        <div class="carrinho-conteudo">
+            <h3>Seu Carrinho</h3>
+            <ul id="carrinho-itens"></ul>
+            <button id="finalizar-pedido" class="btn">Finalizar Pedido</button>
+            <button id="fechar-modal" class="btn-btn-secondary">Fechar</button>
+        </div>
+    </div>
     <div id="loginModal" class="modal hidden">
         <div class="modal-content">
             <span class="close">&times;</span>

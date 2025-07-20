@@ -1,12 +1,14 @@
+let carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+
 document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const response = await fetch('/api/cardapio', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json'}
-        });
-        if (!response.ok) {
-            throw new Error('Erro ao obter cardápio');
-        }
+  try {
+    const response = await fetch('/api/cardapio', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (!response.ok) {
+      throw new Error('Erro ao obter cardápio');
+    }
     const { data: cardapio } = await response.json();
 
     // filtrar por categorias
@@ -17,6 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderizarCardapio("doces", pizzasDoces);
 
     adicionarEventosPedido();
+    atualizarContadorCarrinho();
 
   } catch (error) {
     console.error("Erro:", error);
@@ -26,6 +29,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
     `;
   }
+
+  document.getElementById('carrinho-icon')?.addEventListener('click', mostrarModalCarrinho);
+  document.getElementById('fechar-modal')?.addEventListener('click', esconderModalCarrinho);
+  document.getElementById('finalizar-pedido')?.addEventListener('click', irParaPaginaPedido);
 });
 
 // função para renderizar cada seção do cardápio
@@ -45,6 +52,7 @@ function renderizarCardapio(secaoId, pizzas) {
   `).join('');
 }
 
+
 function adicionarEventosPedido() {
   document.querySelectorAll('.btn-pedir').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -55,6 +63,44 @@ function adicionarEventosPedido() {
 }
 
 function adicionarAoCarrinho(pizzaId) {
-  console.log(`Pizza ${pizzaId} adicionada ao carrinho`);
-  alert(`Pizza adicionada ao carrinho! ID: ${pizzaId}`);
+  const pizza = buscarPizzaPorId(pizzaId);
+  if (pizza) {
+    carrinho.push(pizza);
+    atualizarContadorCarrinho();
+    sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+    alert(`Pizza "${pizza.titulo}" adicionada ao carrinho!`);
+  }
+}
+
+function buscarPizzaPorId(id) {
+  const todas = [...document.querySelectorAll('.pizza-card')];
+  const card = todas.find(c => c.getAttribute('data-id') === id);
+  if (!card) return null;
+  return {
+    id,
+    titulo: card.querySelector('h3').textContent,
+    descricao: card.querySelector('.descricao').textContent,
+    valor: parseFloat(card.querySelector('.preco').textContent.replace('R$ ', ''))
+  };
+}
+
+function atualizarContadorCarrinho() {
+  document.getElementById('carrinho-count').textContent = carrinho.length;
+}
+
+function mostrarModalCarrinho() {
+  const lista = document.getElementById('carrinho-itens');
+  lista.innerHTML = carrinho.map(item =>
+    `<li>${item.titulo} - R$ ${item.valor.toFixed(2)}</li>`
+  ).join('');
+  document.getElementById('carrinho-modal').classList.add('show');
+}
+
+function esconderModalCarrinho() {
+  document.getElementById('carrinho-modal').classList.remove('show');
+}
+
+function irParaPaginaPedido() {
+  sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+  window.location.href = 'pedido.html';
 }

@@ -63,6 +63,27 @@ header nav ul li a:hover{
     transform: scale(1.7);
 }
 
+#carrinho-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+header #carrinho-icon img {
+    width: 22px;
+    height: 22px;
+}
+
+#carrinho-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #FFA94D;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
 .login{
     background-color: transparent;
     display: flex;
