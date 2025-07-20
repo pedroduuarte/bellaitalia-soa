@@ -1,27 +1,144 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido</title>
+    <link rel="stylesheet" href="/css/globals.css">
+    <link rel="stylesheet" href="/css/login-modal.css">
+    <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/carrinho-modal.css">
+    <script defer src="/js/pedido.js"></script>
+    <script src="/js/login.js" defer></script>
 </head>
+
 <body>
-        <header class="header-div">
+    <header class="header-div">
         <div class="container">
             <h1>Bella Itália</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Início</a></li>
+                    <li><a href="/">Início</a></li>
                     <li><a href="/menu">Cardápio</a></li>
                     <li><a href="/reservas.html">Sobre Nós</a></li>
                     <li><a href="/contato.html">Contato</a></li>
+                    <button id="btnOpenLogin" class="btn btn-login">Login</button>
+                    <li>
+                        <div id="carrinho-icon" class="carrinho-icon">
+                            <img src="/images/cart.png" alt="carrinho" />
+                            <span id="carrinho-count">0</span>
+                        </div>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
-        <footer>
+    <main class="pedido-container">
+        <h2>Esse é o seu pedido</h2>
+        <section class="itens-pedido" id="itens-pedido">
+
+        </section>
+
+        <section class="detalhes-entrega">
+            <h3>Detalhes de Entrega</h3>
+            <form id="form-entrega">
+                <div class="form-group">
+                    <label for="rua">Rua</label>
+                    <input type="text" id="rua" name="rua" required>
+                    <label for="bairro">Bairro</label>
+                    <input type="text" id="bairro" name="bairro" required>
+                    <label for="numero">Número</label>
+                    <input type="number" id="numero" name="numero" required>
+                </div>
+            </form>
+        </section>
+
+        <section class="metodo-pagamento">
+            <h3>Método de Pagamento</h3>
+            <div class="opcoes-pagamento">
+                <!-- Cartão de Crédito -->
+                <label class="metodo-option">
+                    <input type="radio" name="pagamento" value="credit_card" checked>
+                    <span class="metodo-icon">💳</span>
+                    <span>Cartão de Crédito</span>
+                </label>
+                
+                <div id="credit-card-fields" class="payment-fields">
+                    <div class="form-group">
+                        <label for="card-number">Número do Cartão</label>
+                        <input type="text" id="card-number" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-expiry">Validade</label>
+                            <input type="text" id="card-expiry" name="card_expiry" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="text" id="card-cvv" name="card_cvv" placeholder="123" maxlength="3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-name">Nome no Cartão</label>
+                        <input type="text" id="card-name" name="card_name" placeholder="Como no cartão">
+                    </div>
+                </div>
+
+                <!-- PIX -->
+                <label class="metodo-option">
+                    <input type="radio" name="pagamento" value="pix">
+                    <span class="metodo-icon">🧾</span>
+                    <span>PIX</span>
+                </label>
+                
+                <div id="pix-fields" class="payment-fields" style="display: none;">
+                    <p class="pix-info">Após finalizar o pedido, você receberá um QR Code para pagamento.</p>
+                    <div class="form-group">
+                        <label for="pix-key">Chave PIX (opcional)</label>
+                        <input type="text" id="pix-key" name="pix_key" placeholder="CPF, e-mail ou telefone">
+                    </div>
+                </div>
+
+                <!-- Dinheiro -->
+                <label class="metodo-option">
+                    <input type="radio" name="pagamento" value="cash">
+                    <span class="metodo-icon">💵</span>
+                    <span>Dinheiro</span>
+                </label>
+                
+                <div id="cash-fields" class="payment-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="cash-change">Troco para quanto?</label>
+                        <input type="text" id="cash-change" name="cash_change" placeholder="R$ 0,00">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="resumo-pedido">
+            <h3>Resumo do Pedido</h3>
+            <div class="resumo-linhas">
+                <div class="resumo-linha">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R$ 0,00</span>
+                </div>
+                <div class="resumo-linha">
+                    <span>Taxa de Entrega:</span>
+                    <span id="taxa-entrega">R$ 5,00</span>
+                </div>
+                <div class="resumo-linha total">
+                    <span>Total:</span>
+                    <span id="total">R$ 0,00</span>
+                </div>
+            </div>
+        </section>
+
+        <button id="finalizar-pedido" class="btn-finalizar">Finalizar Pedido</button>
+    </main>
+    <footer>
         <div class="footer-container">
             <div class="footer-column">
                 <h3 class="footer-logo">Bella Itália</h3>
@@ -52,5 +169,49 @@
             </div>
         </div>
     </footer>
+    <div id="carrinho-modal" class="carrinho-modal">
+        <div class="carrinho-conteudo">
+            <h3>Seu Carrinho</h3>
+            <ul id="carrinho-itens"></ul>
+            <button id="finalizar-pedido" class="btn">Finalizar Pedido</button>
+            <button id="fechar-modal" class="btn-btn-secondary">Fechar</button>
+        </div>
+    </div>
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+
+            <div id="loginSection">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required />
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required />
+                    <button type="submit">Entrar</button>
+                </form>
+                <p><a href="#" id="showRegister">Não tem conta? Cadastre-se aqui</a></p>
+                <div id="loginMessage"></div>
+            </div>
+
+            <div id="registerSection" class="hidden">
+                <h2>Cadastro</h2>
+                <form id="registerForm">
+                    <label for="name">Nome completo:</label>
+                    <input type="text" id="name" name="name" required />
+                    <label for="regEmail">E-mail:</label>
+                    <input type="email" id="regEmail" name="email" required />
+                    <label for="regPassword">Senha:</label>
+                    <input type="password" id="regPassword" name="password" required />
+                    <label for="confirmPassword">Confirme a senha:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required />
+                    <button type="submit">Cadastrar</button>
+                </form>
+                <p><a href="#" id="showLogin">Já tem conta? Faça login aqui</a></p>
+                <div id="registerMessage"></div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
