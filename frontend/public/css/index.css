@@ -1,0 +1,41 @@
+.apresentacao {
+    background-color: #333333;
+}
+.content{
+    height: 80vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/images/background-pizza.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+}
+
+.content h1{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 900; /* Negrito forte */
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin: 10px;
+    max-width: 500px;
+    color: white;
+
+}
+
+.content h1 span{
+    color: #ff7a1a;
+}
+
+.content p{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 0.8rem;
+    max-width: 600px;
+    color: #ddd;
+    letter-spacing: 0.05em;
+}

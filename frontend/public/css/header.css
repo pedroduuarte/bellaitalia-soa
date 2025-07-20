@@ -5,7 +5,7 @@
 }
 
 .header-div{
-    background-color: #ffd000;
+    background-color: #111828;
 }
 .container{
     width: 100%;
@@ -30,11 +30,11 @@ header {
 
 header h1{
     font-size: 30px;
-    color: #000000;
+    color: #ff7a1a;
 }
 header a{
     text-decoration: none;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 header nav{
@@ -51,16 +51,16 @@ header nav ul{
 
 header nav ul li a{
     padding: 10px;
-    border-radius: 40%;
+    border-radius: 10%;
 }
 
 header nav ul li a:hover{
     padding: 10px;
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #ff7a1a;
+    color: #ffffff;
     border-radius: 15%;
     transition: 0.8s;
-    transform: scale(0.9);
+    transform: scale(1.7);
 }
 
 .login{

@@ -1,0 +1,76 @@
+footer {
+    background-color: #111828;
+    color: #ffffff;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    width: 100%;
+    padding: 0 40px;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-logo {
+    color: #ff7a1a;
+    margin-bottom: 10px;
+}
+
+.footer-column h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+}
+.footer-column p {
+    margin-bottom: 8px;
+}
+
+.footer-column a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer-column a:hover {
+    color: #ff7a1a;
+    font-style: bold;
+    transform: scale(1.0);
+}
+
+/* ==== ADAPTAÇÕES FEITAS AQUI ==== */
+.social-icons {
+    display: flex;
+    gap: 15px; /* espaçamento entre os ícones */
+    margin-top: 15px; /* espaçamento vertical entre o texto e os ícones */
+}
+
+.social-icons a {
+    display: inline-block;
+}
+
+.social-icons img {
+    width: 32px;  /* aumenta o tamanho dos ícones */
+    height: 32px;
+    transition: transform 0.2s ease;
+}
+
+.social-icons img:hover {
+    transform: scale(1.1); /* efeito de leve zoom ao passar o mouse */
+}
