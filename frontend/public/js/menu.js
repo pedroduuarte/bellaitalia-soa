@@ -14,9 +14,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     // filtrar por categorias
     const pizzasTradicionais = cardapio.filter(p => p.tipo === "PizzaTradicional");
     const pizzasDoces = cardapio.filter(p => p.tipo === "PizzaDoce");
+    const melhoresPizzas = [...pizzasTradicionais, ...pizzasDoces];
+
 
     renderizarCardapio("tradicionais", pizzasTradicionais);
     renderizarCardapio("doces", pizzasDoces);
+    renderizarCarrosselPizzas(pizzasTradicionais);
+
 
     adicionarEventosPedido();
     atualizarContadorCarrinho();
@@ -48,6 +52,7 @@ function renderizarCardapio(secaoId, pizzas) {
 
   container.innerHTML = pizzas.map(pizza => `
     <div class="pizza-card" data-id="${pizza.id}">
+      <img src="images/pizzas/${pizza.id}.jpg" alt="${pizza.titulo}" class="pizza-imagem"/>
       <h3>${pizza.titulo}</h3>
       <p class="descricao">${pizza.descricao}</p>
       <div class="pizza-footer">
@@ -56,6 +61,37 @@ function renderizarCardapio(secaoId, pizzas) {
       </div>
     </div>
   `).join('');
+}
+
+function renderizarCarrosselPizzas(pizzas) {
+  const container = document.getElementById('carousel-items');
+  if (!container) return;
+
+  // Agrupa as pizzas em blocos de 3
+  const grupos = [];
+  for (let i = 0; i < pizzas.length; i += 3) {
+    grupos.push(pizzas.slice(i, i + 3));
+  }
+
+  container.innerHTML = grupos.map((grupo, index) => `
+    <div class="carousel-item ${index === 0 ? 'active' : ''}">
+      <div class="d-flex justify-content-center gap-4 flex-wrap">
+        ${grupo.map(pizza => `
+          <div class="pizza-card" data-id="${pizza.id}">
+            <img src="images/pizzas/${pizza.id}.jpg" alt="${pizza.titulo}" class="pizza-imagem" />
+            <h3>${pizza.titulo}</h3>
+            <p class="descricao">${pizza.descricao}</p>
+            <div class="pizza-footer">
+              <span class="preco">R$ ${parseFloat(pizza.valor).toFixed(2)}</span>
+              <a href="/menu"><button class="btn-pedir" data-id="">Pedir</button></a>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  adicionarEventosPedido(); // reaproveita sua função já existente
 }
 
 
