@@ -10,20 +10,26 @@
     <link rel="stylesheet" href="/css/login-modal.css">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/carrinho-modal.css">
     <script src="/js/login.js" defer></script>
 </head>
-
 <body>
     <header class="header-div">
         <div class="container">
             <h1>Bella Itália</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Início</a></li>
+                    <li><a href="/">Início</a></li>
                     <li><a href="/menu">Cardápio</a></li>
                     <li><a href="/reservas.html">Sobre Nós</a></li>
                     <li><a href="/contato.html">Contato</a></li>
                     <button id="btnOpenLogin" class="btn btn-login">Login</button>
+                    <li>
+                        <div id="carrinho-icon" class="carrinho-icon">
+                            <img src="/images/cart.png" alt="carrinho" />
+                            <span id="carrinho-count">0</span>
+                        </div>
+                    </li>
                 </ul>
             </nav>
         </div>
