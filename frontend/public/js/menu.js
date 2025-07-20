@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     renderizarCardapio("tradicionais", pizzasTradicionais);
     renderizarCardapio("doces", pizzasDoces);
-    renderizarCarrosselPizzas(melhoresPizzas);
+    renderizarCarrosselPizzas(pizzasTradicionais);
 
 
     adicionarEventosPedido();
@@ -77,7 +77,7 @@ function renderizarCarrosselPizzas(pizzas) {
             <p class="descricao">${pizza.descricao}</p>
             <div class="pizza-footer">
               <span class="preco">R$ ${parseFloat(pizza.valor).toFixed(2)}</span>
-              <button class="btn-pedir" data-id="${pizza.id}">Pedir</button>
+              <a href="/menu"><button class="btn-pedir" data-id="">Pedir</button></a>
             </div>
           </div>
         `).join('')}
