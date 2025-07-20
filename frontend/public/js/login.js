@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       document.getElementById("loginMessage").textContent = "Login bem-sucedido!";
 
-      window.location.href = "/menu.html"
+      window.location.href = "/menu"
     } catch (err) {
       document.getElementById("loginMessage").textContent = err.message;
     }
@@ -92,5 +92,5 @@ document.addEventListener("DOMContentLoaded", () => {
 function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userName");
-    window.location.href = "/index.html";
+    window.location.href = "/";
 }
