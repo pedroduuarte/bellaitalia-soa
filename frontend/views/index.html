@@ -1,66 +1,70 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bella Itália</title>
-  <link rel="stylesheet" href="/css/style.css" />
-  <script src="/js/login.js" defer></script>
-</head>
-<body>
-  <header class="site-header">
-    <div class="overlay"></div>
-    <div class="logo">Bella Itália</div>
-    <nav>
-      <a href="/">Início</a>
-      <a href="/menu">Cardápio</a>
-      <a href="#">Sobre Nós</a>
-      <a href="#">Contato</a>
-      <button id="btnOpenLogin" class="btn btn-login">Login</button>
-    </nav>
-    <div class="content">
-      <h1>A melhor Pizza da <br /><span>Região</span></h1>
-      <p class="hero-text">Feita com ingredientes de primeira qualidade. Sinta o sabor a cada mordida.</p>
-      <div class="buttons">
-        <button class="btn btn-order">Faça seu pedido</button>
-      </div>
+<html lang="pt-BR">    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bella Itália</title>
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/login-modal.css">
+        <script src="/js/login.js" defer></script>
+    </head>
+    <body>
+        <header class="header-div">
+          <div class="container">
+            <h1>Bella Itália</h1>
+            <nav>
+                <ul>
+                    <li><a href="/index.html">Início</a></li>
+                    <li><a href="/menu">Cardápio</a></li>
+                    <li><a href="/reservas.html">Sobre Nós</a></li>
+                    <li><a href="/contato.html">Contato</a></li>
+                    <button id="btnOpenLogin" class="btn btn-login">Login</button>
+                </ul>
+            </nav>
+            </div>
+        </header>
+        
+
+        <div class="content">
+            <h1>A melhor Pizza da <br /><span>Região</span></h1>
+            <p>Feita com ingredientes de primeira qualidade. Sinta o sabor a cada mordida.</p>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Bella Itália. Todos os direitos reservados.</p>
+        </footer>
+            <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+
+            <div id="loginSection">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required />
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required />
+                    <button type="submit">Entrar</button>
+                </form>
+                <p><a href="#" id="showRegister">Não tem conta? Cadastre-se aqui</a></p>
+                <div id="loginMessage"></div>
+            </div>
+
+            <div id="registerSection" class="hidden">
+                <h2>Cadastro</h2>
+                <form id="registerForm">
+                    <label for="name">Nome completo:</label>
+                    <input type="text" id="name" name="name" required />
+                    <label for="regEmail">E-mail:</label>
+                    <input type="email" id="regEmail" name="email" required />
+                    <label for="regPassword">Senha:</label>
+                    <input type="password" id="regPassword" name="password" required />
+                    <label for="confirmPassword">Confirme a senha:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required />
+                    <button type="submit">Cadastrar</button>
+                </form>
+                <p><a href="#" id="showLogin">Já tem conta? Faça login aqui</a></p>
+                <div id="registerMessage"></div>
+            </div>
+        </div>
     </div>
-  </header>
-
-  <div id="loginModal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-
-      <div id="loginSection">
-        <h2>Login</h2>
-        <form id="loginForm">
-          <label for="email">E-mail:</label>
-          <input type="email" id="email" name="email" required />
-          <label for="password">Senha:</label>
-          <input type="password" id="password" name="password" required />
-          <button type="submit">Entrar</button>
-        </form>
-        <p><a href="#" id="showRegister">Não tem conta? Cadastre-se aqui</a></p>
-        <div id="loginMessage"></div>
-      </div>
-
-      <div id="registerSection" class="hidden">
-        <h2>Cadastro</h2>
-        <form id="registerForm">
-          <label for="name">Nome completo:</label>
-          <input type="text" id="name" name="name" required />
-          <label for="regEmail">E-mail:</label>
-          <input type="email" id="regEmail" name="email" required />
-          <label for="regPassword">Senha:</label>
-          <input type="password" id="regPassword" name="password" required />
-          <label for="confirmPassword">Confirme a senha:</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" required />
-          <button type="submit">Cadastrar</button>
-        </form>
-        <p><a href="#" id="showLogin">Já tem conta? Faça login aqui</a></p>
-        <div id="registerMessage"></div>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
