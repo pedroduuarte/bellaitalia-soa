@@ -10,14 +10,6 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Site Header */
-.site-header {
-  background: url('/frontend/public/images/background-pizza.jpg') no-repeat center center/cover;
-  height: 100vh;
-  color: white;
-  position: relative;
-}
-
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.6);
@@ -52,30 +44,6 @@ body, html {
   z-index: 3;
 }
 
-/* Navegação */
-nav {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  height: auto;
-  padding: 10px 0;
-  z-index: 3;
-}
-
-nav a {
-  text-decoration: none;
-  color: white;
-  font-weight: 500;
-  padding: 5px 10px;
-  transition: opacity 0.3s ease;
-}
-
-nav a:hover {
-  opacity: 0.8;
-}
 
 /* Botões */
 .btn {

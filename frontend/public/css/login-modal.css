@@ -139,5 +139,6 @@ form button[type="submit"]:hover {
   text-align: center;
   font-weight: 600;
   font-size: 0.95rem;
-  color: #2bff00;
+  font-style: bold;
+  color: #0051ff;
 }
