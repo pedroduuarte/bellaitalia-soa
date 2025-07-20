@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="/css/login-modal.css">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/pizzas.css">
+    <link rel="stylesheet" href="/css/carrinho-modal.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="/js/login.js" defer></script>
+    <script src="/js/menu.js" defer></script>
 </head>
 
 <body>
@@ -19,11 +24,17 @@
             <h1>Bella Itália</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Início</a></li>
+                    <li><a href="/">Início</a></li>
                     <li><a href="/menu">Cardápio</a></li>
                     <li><a href="/reservas.html">Sobre Nós</a></li>
                     <li><a href="/contato.html">Contato</a></li>
                     <button id="btnOpenLogin" class="btn btn-login">Login</button>
+                    <li>
+                        <div id="carrinho-icon" class="carrinho-icon">
+                            <img src="/images/cart.png" alt="carrinho" />
+                            <span id="carrinho-count">0</span>
+                        </div>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -43,50 +54,28 @@
             <p>Seja Bella Italia e venha se deliciar nos nossos sabores</p>
         </div>
 
-        <div class="menu-itens">
-            <div class="item">
-                <img src="" alt="">
-                <h3>Frango Catupiry</h3>
-                <p>Frango desfiado, mussarela e catupiry</p>
-                <p class="valor"> R$ 45,00 </p>
-                <button>Pedir</button>
-            </div>
 
-            <div class="item">
-                <img src="" alt="">
-                <h3>Calabresa</h3>
-                <p>Calabresa, mussarela e cebola</p>
-                <p class="valor"> R$ 50,00 </p>
-                <button>Pedir</button>
-            </div>
 
-            <div class="item">
-                <img src="" alt="">
-                <h3>Quatro Queijos</h3>
-                <p>Mussarela, parmesão, gorgonzola e provolone</p>
-                <p class="valor"> R$ 45,00 </p>
-                <button>Pedir</button>
-            </div>
+    <div id="carrossel-pizzas" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner" id="carousel-items">
+        <!-- Slides com 3 pizzas serão inseridos aqui via JS -->
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carrossel-pizzas" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carrossel-pizzas" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+    </div>
 
-            <div class="item">
-                <img src="" alt="">
-                <h3>Chocolate</h3>
-                <p>Creme de chocolate, granulado</p>
-                <p class="valor"> R$ 40,00 </p>
-                <button>Pedir</button>
-            </div>
 
-            <div class="item">
-                <img src="" alt="">
-                <h3>Margherita</h3>
-                <p>Molho de tomate, mussarela e manjericão</p>
-                <p class="valor"> R$ 45,00 </p>
-                <button>Pedir</button>
-            </div>
-        </div>
+
+
+
+
     </section>
 
-        <div class="content">
+    <div class="content">
         <div class="regiao">
             <h1>Venha nos visitar</h1>
             <p>a melhor experiência gastronomica da cidade</p>
@@ -111,7 +100,7 @@
 
             </div>
         </div>
-        </div>
+    </div>
 
     <footer>
         <div class="footer-container">
@@ -179,3 +168,4 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
