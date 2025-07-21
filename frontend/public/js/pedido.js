@@ -6,8 +6,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     atualizarContadorCarrinho();
     atualizarTotais();
     exibirItensPedido();
+    console.log('Carrinho carregado:', carrinho);
 
-    const radios = document.querySelectorAll('input[name="pagamento"]'); // <- ADICIONE ISSO AQUI
+
+
+    const radios = document.querySelectorAll('input[name="pagamento"]');
 
     radios.forEach((radio) => {
         radio.addEventListener('change', () => {
@@ -19,38 +22,39 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (selectedValue === 'credit_card') {
                 document.getElementById('credit-card-fields').style.display = 'block';
+                console.log('Exibindo campos de cartão de crédito');
             } else if (selectedValue === 'pix') {
                 document.getElementById('pix-fields').style.display = 'block';
+                console.log('Exibindo campos de PIX');
             } else if (selectedValue === 'cash') {
                 document.getElementById('cash-fields').style.display = 'block';
+                console.log('Exibindo campos de dinheiro');
             }
         });
     });
-    try {
-        const response = await fetch('/api/cardapio');
-        if (!response.ok) throw new Error('Erro ao obter cardápio');
-
-        const { data: cardapio } = await response.json();
-        const pizzasTradicionais = cardapio.filter(p => p.tipo === "PizzaTradicional");
-        const pizzasDoces = cardapio.filter(p => p.tipo === "PizzaDoce");
-
-        renderizarCardapio("tradicionais", pizzasTradicionais);
-        renderizarCardapio("doces", pizzasDoces);
-        adicionarEventosPedido();
-        atualizarContadorCarrinho();
-
-    } catch (error) {
-        console.error("Erro:", error);
-        document.getElementById("menu-container").innerHTML = `
-      <div class="error-message">Erro ao carregar o cardápio</div>
-    `;
-    }
+    console.log('Elemento do botão:', document.getElementById('finalizar-pedido-botao'));
+    console.log('Carrinho antes de finalizar:', carrinho);
 
     // Event Listeners
     document.getElementById('carrinho-icon')?.addEventListener('click', mostrarModalCarrinho);
     document.getElementById('fechar-modal')?.addEventListener('click', esconderModalCarrinho);
-    document.getElementById('finalizar-pedido-botao')?.addEventListener('click', finalizarPedido);
-    document.getElementById('finalizar-pedido')?.addEventListener('click', irParaPaginaPedido);
+    document.getElementById('finalizar-pedido-botao')?.addEventListener('click', () => {
+        const selectedValue = document.querySelector('input[name="pagamento"]:checked')?.value;
+
+        const rua = document.getElementById('rua')?.value.trim();
+        const bairro = document.getElementById('bairro')?.value.trim();
+        const numero = document.getElementById('numero')?.value.trim();
+
+        const endereco = { rua, bairro, numero };
+
+        if (!selectedValue || !rua || !bairro || !numero) {
+            alert('Preencha todos os campos de entrega e selecione uma forma de pagamento.');
+            return;
+        }
+
+        finalizarPedidoCompleto(selectedValue, endereco);
+    });
+        document.getElementById('finalizar-pedido')?.addEventListener('click', irParaPaginaPedido);
 });
 
 // Funções auxiliares
@@ -134,40 +138,6 @@ function irParaPaginaPedido() {
     window.location.href = '/pedido';
 }
 
-async function finalizarPedido() {
-    try {
-       const endereco = document.getElementById('endereco').value;
-       const pagamento = document.querySelector('input[name="pagamento"]:checked')?.value;
-       const customerName = document.getElementById('name').value;
-       const total = carrinho.reduce((acc, item) => acc + item.valor, 0) + 5.00;
-
-       const response = await fetch('/api/order', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }, 
-        body: JSON.stringify({
-            customerName,
-            itens: carrinho,
-            total,
-            endereco,
-            pagamento
-        })
-    });
-
-    if (!response.ok) throw new Error('Erro ao finalizar pedido');
-
-    sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
-    sessionStorage.removeItem(carrinhoKey);
-    window.location.href = '/confirmacao';
-
-    } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao finalizar pedido: ' + error.message);
-    }
-}
-
 function exibirItensPedido() {
     const itensContainer = document.getElementById('itens-pedido');
     if (!itensContainer) return;
@@ -224,4 +194,108 @@ function atualizarTotais() {
   subtotalElement.textContent = `R$ ${subtotal.toFixed(2)}`;
   taxaElement.textContent = `R$ ${taxaEntrega.toFixed(2)}`;
   totalElement.textContent = `R$ ${total.toFixed(2)}`;
+}
+
+async function finalizarPedidoCompleto(paymentMethod, endereco) {
+    try {
+        const token = localStorage.getItem('token');
+        const customerName = localStorage.getItem('userName') || 'Cliente';
+        const total = carrinho.reduce((acc, item) => acc + item.valor, 0) + 5.00;
+
+        if (paymentMethod === 'pix') {
+            const pedidoTemporario = {
+                customerName,
+                itens: [...carrinho],
+                total,
+                endereco,
+                paymentMethod,
+                timestamp: new Date().getTime()
+            };
+            
+            sessionStorage.setItem('pedidoPendente', JSON.stringify(pedidoTemporario));
+            window.location.href = '/confirmacao-pix';
+            return;
+        }
+
+        const orderId = await criarPedidoCompleto(token, customerName, carrinho, total, paymentMethod, endereco);
+        
+        sessionStorage.removeItem(carrinhoKey);
+        window.location.href = `/confirmacao?pedido=${orderId}`;
+
+    } catch (error) {
+        console.error('Erro ao finalizar pedido:', error);
+        alert('Erro ao finalizar pedido: ' + error.message);
+    }
+}
+
+async function criarPedidoCompleto(token, customerName, itens, total, paymentMethod, endereco) {
+    // 1. Criar pedido
+    const pedidoResponse = await fetch('http://localhost:3003/api/order/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            customerName,
+            itens,
+            total
+        })
+    });
+
+    if (!pedidoResponse.ok) {
+        const error = await pedidoResponse.json().catch(() => ({}));
+        throw new Error(error.message || 'Erro ao criar pedido');
+    }
+
+    const pedidoData = await pedidoResponse.json();
+    const orderId = pedidoData.orderId;
+
+    if (!orderId) {
+        throw new Error('ID do pedido não foi retornado pela API');
+    }
+
+    // 2. Criar pagamento
+    const pagamentoResponse = await fetch('http://localhost:3005/api/payment/process', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            orderId,
+            paymentMethod,
+            amount: total
+        })
+    });
+
+    if (!pagamentoResponse.ok) {
+        const error = await pagamentoResponse.json().catch(() => ({}));
+        throw new Error(error.message || 'Falha no processamento do pagamento');
+    }
+
+    // 3. Criar entrega
+    const deliveryResponse = await fetch('http://localhost:3004/api/delivery', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            id: orderId,
+            rua: endereco.rua,
+            bairro: endereco.bairro,
+            numero: endereco.numero,
+            taxaEntrega: 5.00,
+            tempoEntrega: '30 minutos',
+            status: 'pendente'
+        })
+    });
+
+    if (!deliveryResponse.ok) {
+        const error = await deliveryResponse.json().catch(() => ({}));
+        throw new Error(error.message || 'Falha ao criar entrega');
+    }
+
+    return orderId;
 }

@@ -1,4 +1,5 @@
 const db = require('../database/connection');
+const { get } = require('../routes/orderRoutes');
 
 const createOrder = (order, callback) => {
     const { customerName, items, total, createdAt } = order;
@@ -25,7 +26,29 @@ const listOrders = (callback) => {
     });
 };
 
+const getOrderById = (id, callback) => {
+    const query = `SELECT * FROM orders WHERE id = ?`;
+    
+    db.get(query, [id], (err, row) => {
+        if (err) {
+            return callback(err);
+        }
+        
+        if (!row) {
+            return callback(null, null); 
+        }
+        
+        const formattedOrder = {
+            ...row,
+            items: JSON.parse(row.items)
+        };
+        
+        callback(null, formattedOrder);
+    });
+};
+
 module.exports = {
     createOrder,
-    listOrders
+    listOrders,
+    getOrderById
 }

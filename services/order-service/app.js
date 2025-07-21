@@ -6,12 +6,15 @@ const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', 
+    methods: ['POST', 'GET']
+}));
 app.use(express.json());
 
-app.use('/', orderRoutes);
+app.use('/api/order', orderRoutes);
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
     console.log(`Order-service rodando na porta ${PORT}`);
 });

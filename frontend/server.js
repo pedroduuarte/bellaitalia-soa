@@ -10,9 +10,8 @@ app.use('/api/cardapio', createProxyMiddleware({
     changeOrigin: true
 }));
 
-// endoint API order-service
 app.use('/api/order', createProxyMiddleware({
-    target: 'http://localhost:3002',
+    target: 'http://localhost:3003',
     changeOrigin: true
 }));
 
@@ -33,7 +32,7 @@ app.use('/api/auth', createProxyMiddleware({
 app.use('/api/payment', createProxyMiddleware({
     target: 'http://localhost:3005',
     changeOrigin: true
-}))
+}));
 
 // arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -56,8 +55,19 @@ app.get('/pedido', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/pedido.html'));
 });
 
+// rota para página sobre
 app.get('/sobre', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/sobre.html'));
+});
+
+// rota para página de confirmação de pagamento pix
+app.get('/confirmacao-pix' , (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/confirmacao-pix.html'));
+});
+
+// rota para página de confirmação de pedido
+app.get('/confirmacao', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/confirmacao.html'));
 });
 
 
