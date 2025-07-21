@@ -1,15 +1,19 @@
 const Order = require('../models/orderModel');
 
 const create = (req, res) => {
-    const { customerName, items, total } = req.body;
+    const { customerName, itens, total } = req.body;
 
-    if (!customerName || !items || !total) {
+    if (!customerName || !itens || !total) {
         return res.status(400).json({message: 'Dados obrigatórios ausentes.'});
     } 
 
+    if (!Array.isArray(itens) || itens.length === 0) {
+    return res.status(400).json({ message: 'Itens do pedido inválidos.' });
+    }
+
     const order = {
         customerName,
-        items,
+        items: itens,
         total,
         createdAt: new Date().toISOString()
     };

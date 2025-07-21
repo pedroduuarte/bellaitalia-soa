@@ -91,7 +91,7 @@ function renderizarCarrosselPizzas(pizzas) {
     </div>
   `).join('');
 
-  adicionarEventosPedido(); // reaproveita sua função já existente
+  adicionarEventosPedido();
 }
 
 
@@ -117,16 +117,18 @@ function adicionarAoCarrinho(pizzaId) {
             valor: parseFloat(pizza.valor)
           });
           atualizarContadorCarrinho();
+          console.log('Carrinho carregado:', carrinho);
         }
       });
     }
   } else {
       const pizza = buscarPizzaPorId(pizzaId);
-    if (pizza) {
-      carrinho.push(pizza);
-      atualizarContadorCarrinho();
-      sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
-      alert(`Pizza "${pizza.titulo}" adicionada ao carrinho!`);
+      if (pizza) {
+        carrinho.push(pizza);
+        atualizarContadorCarrinho();
+        sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+        alert(`Pizza "${pizza.titulo}" adicionada ao carrinho!`);
+        console.log('Carrinho carregado:', carrinho);
     }
   }
 }

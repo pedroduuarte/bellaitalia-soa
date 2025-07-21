@@ -1,6 +1,7 @@
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('Carrinho carregado:', carrinho);
     atualizarContadorCarrinho();
     atualizarTotais();
     exibirItensPedido();
@@ -112,24 +113,30 @@ function irParaPaginaPedido() {
 
 async function finalizarPedido() {
     try {
-        // Implementar lógica de finalização
-        const response = await fetch('/api/pedidos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify({
-                itens: carrinho,
-                endereco: document.getElementById('endereco').value,
-                pagamento: document.querySelector('input[name="pagamento"]:checked').value
-            })
-        });
+       const endereco = document.getElementById('endereco').value;
+       const pagamento = document.querySelector('input[name="pagamento"]:checked')?.value;
+       const customerName = document.getElementById('name').value;
+       const total = carrinho.reduce((acc, item) => acc + item.valor, 0) + 5.00;
 
-        if (!response.ok) throw new Error('Erro ao finalizar pedido');
+       const response = await fetch('/api/order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }, 
+        body: JSON.stringify({
+            customerName,
+            itens: carrinho,
+            total,
+            endereco,
+            pagamento
+        })
+    });
 
-        localStorage.removeItem('carrinho');
-        window.location.href = '/confirmacao';
+    if (!response.ok) throw new Error('Erro ao finalizar pedido');
+
+    localStorage.removeItem('carrinho');
+    window.location.href = '/confirmacao';
 
     } catch (error) {
         console.error('Erro:', error);
@@ -155,6 +162,12 @@ function exibirItensPedido() {
             <div class="item-preco">R$ ${item.valor.toFixed(2)}</div>
         </div>
     `).join('');
+}
+
+function calcularTotalCarrinho() {
+  const subtotal = carrinho.reduce((total, item) => total + item.valor, 0);
+  const taxaEntrega = 5.00;
+  return subtotal + taxaEntrega;
 }
 
 function atualizarTotais() {
