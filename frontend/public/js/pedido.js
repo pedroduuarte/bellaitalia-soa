@@ -3,10 +3,29 @@ const carrinhoKey = `carrinho_${email}`;
 let carrinho = JSON.parse(sessionStorage.getItem(carrinhoKey)) || [];
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('Carrinho carregado:', carrinho);
     atualizarContadorCarrinho();
     atualizarTotais();
     exibirItensPedido();
+
+    const radios = document.querySelectorAll('input[name="pagamento"]'); // <- ADICIONE ISSO AQUI
+
+    radios.forEach((radio) => {
+        radio.addEventListener('change', () => {
+            document.getElementById('credit-card-fields').style.display = 'none';
+            document.getElementById('pix-fields').style.display = 'none';
+            document.getElementById('cash-fields').style.display = 'none';
+
+            const selectedValue = document.querySelector('input[name="pagamento"]:checked')?.value;
+
+            if (selectedValue === 'credit_card') {
+                document.getElementById('credit-card-fields').style.display = 'block';
+            } else if (selectedValue === 'pix') {
+                document.getElementById('pix-fields').style.display = 'block';
+            } else if (selectedValue === 'cash') {
+                document.getElementById('cash-fields').style.display = 'block';
+            }
+        });
+    });
     try {
         const response = await fetch('/api/cardapio');
         if (!response.ok) throw new Error('Erro ao obter cardápio');
