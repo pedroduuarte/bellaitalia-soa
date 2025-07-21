@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("userName", data.name);
+      localStorage.setItem("userEmail", data.email); 
 
       document.getElementById("loginMessage").textContent = "Login bem-sucedido!";
 
@@ -130,7 +131,10 @@ function atualizarUIposLogin() {
 }
 
 function logout() {
-  localStorage.removeItem("token");
+  const email = localStorage.getItem('userEmail');
+  sessionStorage.removeItem(`carrinho_${email}`);
+  localStorage.removeItem("userEmail");
   localStorage.removeItem("userName");
-  atualizarUIposLogin(); // atualiza interface após logout
+  localStorage.removeItem("token");
+  window.location.href = "/";
 }

@@ -1,4 +1,6 @@
-let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+const email = localStorage.getItem('userEmail') || 'anonimo';
+const carrinhoKey = `carrinho_${email}`;
+let carrinho = JSON.parse(sessionStorage.getItem(carrinhoKey)) || [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Carrinho carregado:', carrinho);
@@ -72,7 +74,8 @@ function adicionarAoCarrinho(pizzaId) {
                 descricao: pizza.descricao,
                 valor: parseFloat(pizza.valor)
             });
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
+            sessionStorage.removeItem(carrinhoKey);
             atualizarContadorCarrinho();
             atualizarTotais();
             alert(`Pizza "${pizza.titulo}" adicionada ao carrinho!`);
@@ -106,7 +109,8 @@ function irParaPaginaPedido() {
         alert('Seu carrinho está vazio!');
         return;
     }
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
+    sessionStorage.removeItem(carrinhoKey);
     atualizarTotais();
     window.location.href = '/pedido';
 }
@@ -135,7 +139,8 @@ async function finalizarPedido() {
 
     if (!response.ok) throw new Error('Erro ao finalizar pedido');
 
-    localStorage.removeItem('carrinho');
+    sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
+    sessionStorage.removeItem(carrinhoKey);
     window.location.href = '/confirmacao';
 
     } catch (error) {

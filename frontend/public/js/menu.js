@@ -1,4 +1,6 @@
-let carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+const email = localStorage.getItem('userEmail') || 'anonimo';
+const carrinhoKey = `carrinho_${email}`;
+let carrinho = JSON.parse(sessionStorage.getItem(carrinhoKey)) || [];
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -14,7 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // filtrar por categorias
     const pizzasTradicionais = cardapio.filter(p => p.tipo === "PizzaTradicional");
     const pizzasDoces = cardapio.filter(p => p.tipo === "PizzaDoce");
-    const melhoresPizzas = [...pizzasTradicionais, ...pizzasDoces];
 
 
     renderizarCardapio("tradicionais", pizzasTradicionais);
@@ -140,7 +141,7 @@ function adicionarAoCarrinho(pizzaId) {
       if (pizza) {
         carrinho.push(pizza);
         atualizarContadorCarrinho();
-        sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+        sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
         alert(`Pizza "${pizza.titulo}" adicionada ao carrinho!`);
         console.log('Carrinho carregado:', carrinho);
     }
@@ -165,10 +166,29 @@ function atualizarContadorCarrinho() {
 
 function mostrarModalCarrinho() {
   const lista = document.getElementById('carrinho-itens');
-  lista.innerHTML = carrinho.map(item =>
-    `<li>${item.titulo} - R$ ${item.valor.toFixed(2)}</li>`
-  ).join('');
+  lista.innerHTML = carrinho.map((item, index) => `
+    <li data-index="${index}">
+      ${item.titulo} - R$ ${item.valor.toFixed(2)}
+      <button class="remover-item" data-index="${index}" title="Remover item">
+        <img src="/images/trash-icon.png" alt="Remover" class="icone-lixeira" />
+      </button>
+    </li>
+  `).join('');
+
+  document.querySelectorAll('.remover-item').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const index = parseInt(e.currentTarget.dataset.index);
+      removerItemDoCarrinho(index);
+    });
+  });
   document.getElementById('carrinho-modal').classList.add('show');
+}
+
+function removerItemDoCarrinho(index) {
+  carrinho.splice(index, 1);
+  sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
+  atualizarContadorCarrinho();
+  mostrarModalCarrinho(); 
 }
 
 function esconderModalCarrinho() {
@@ -176,6 +196,6 @@ function esconderModalCarrinho() {
 }
 
 function irParaPaginaPedido() {
-  sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+  sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
   window.location.href = '/pedido';
 }

@@ -31,10 +31,26 @@
 }
 
 #carrinho-itens li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 8px 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ff7a1a;
 }
 
+.icone-lixeira {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    filter: grayscale(1);
+    transition: filter 0.2s;
+}
+
+.icone-lixeira:hover {
+    filter: grayscale(0);
+}
 .btn {
     background-color: #ff7a1a;
     color: white;
