@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM carregado");
+
   const modal = document.getElementById("loginModal");
   const btnOpenLogin = document.getElementById("btnOpenLogin");
   console.log("Botão encontrado:", btnOpenLogin);
@@ -13,11 +14,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // abrir modal e fechar modal
   btnOpenLogin.onclick = () => {
-    modal.classList.remove("hidden");
-    loginSection.classList.remove("hidden");
-    registerSection.classList.add("hidden");
-  };
+    const token = localStorage.getItem("token");
+    const userName = localStorage.getItem("userName");
 
+    if (token && userName) {
+      logout(); // se já estiver logado, faz logout
+    } else {
+      modal.classList.remove("hidden");
+      loginSection.classList.remove("hidden");
+      registerSection.classList.add("hidden");
+    }
+  };
 
   btnClose.onclick = () => modal.classList.add("hidden");
 
@@ -53,7 +60,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       document.getElementById("loginMessage").textContent = "Login bem-sucedido!";
 
-      window.location.href = "/menu"
+      atualizarUIposLogin(); // atualiza UI imediatamente
+
+      setTimeout(() => {
+        modal.classList.add("hidden"); // fecha modal após pequeno delay
+      }, 500);
+
     } catch (err) {
       document.getElementById("loginMessage").textContent = err.message;
     }
@@ -87,10 +99,38 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("registerMessage").textContent = err.message;
     }
   });
+
+  // Atualiza UI caso já esteja logado
+  atualizarUIposLogin();
 });
 
+function atualizarUIposLogin() {
+  const token = localStorage.getItem("token");
+  const userName = localStorage.getItem("userName");
+  const btnOpenLogin = document.getElementById("btnOpenLogin");
+
+  if (token && userName) {
+    btnOpenLogin.textContent = `Sair (${userName})`;
+    btnOpenLogin.onclick = logout;
+
+    document.querySelectorAll(".apenas-logado").forEach(el => {
+      el.style.display = "block";
+    });
+  } else {
+    btnOpenLogin.textContent = "Login";
+    btnOpenLogin.onclick = () => {
+      const modal = document.getElementById("loginModal");
+      modal.classList.remove("hidden");
+    };
+
+    document.querySelectorAll(".apenas-logado").forEach(el => {
+      el.style.display = "none";
+    });
+  }
+}
+
 function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-    window.location.href = "/";
+  localStorage.removeItem("token");
+  localStorage.removeItem("userName");
+  atualizarUIposLogin(); // atualiza interface após logout
 }

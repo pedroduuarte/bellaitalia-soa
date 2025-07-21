@@ -77,7 +77,6 @@ function renderizarCarrosselPizzas(pizzas) {
             <p class="descricao">${pizza.descricao}</p>
             <div class="pizza-footer">
               <span class="preco">R$ ${parseFloat(pizza.valor).toFixed(2)}</span>
-              <a href="/menu"><button class="btn-pedir" data-id="">Pedir</button></a>
             </div>
           </div>
         `).join('')}
@@ -92,11 +91,26 @@ function renderizarCarrosselPizzas(pizzas) {
 function adicionarEventosPedido() {
   document.querySelectorAll('.btn-pedir').forEach(btn => {
     btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        // Mostrar o popup avisando que precisa estar logado
+        const popup = document.getElementById('popupAvisoLogin');
+        popup.classList.remove('hidden');
+
+        // Interrompe aqui para não adicionar ao carrinho
+        return;
+      }
+
+      // Se estiver logado, adiciona ao carrinho
       const pizzaId = e.target.getAttribute('data-id');
       adicionarAoCarrinho(pizzaId);
     });
   });
 }
+
+
 
 function adicionarAoCarrinho(pizzaId) {
   const pizza = buscarPizzaPorId(pizzaId);

@@ -4,19 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós</title>
     <link rel="stylesheet" href="/css/globals.css">
-    <link rel="stylesheet" href="/css/login-modal.css">
-    <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/carrinho-modal.css">
-    <link rel="stylesheet" href="/css/pizzas.css">
-    <link rel="stylesheet" href="/css/popup.css">
-
-    <script defer src="/js/menu.js"></script>
-    <script src="/js/login.js" defer></script>
-    <script src="/js/popup.js" defer></script>
-    <title>Cardápio</title>
+    <link rel="stylesheet" href="/css/login-modal.css">
 </head>
 
 <body>
@@ -40,18 +33,14 @@
             </nav>
         </div>
     </header>
-    <div class="menu-container" id="menu-container">
-        <section class="menu-section">
-            <h2>Pizzas Tradicionais</h2>
-            <div class="pizza-grid" id="tradicionais"></div>
-        </section>
-
-        <section class="menu-section">
-            <h2>Pizzas Doces</h2>
-            <div class="pizza-grid" id="doces"></div>
-        </section>
-    </div>
-
+    <section>
+        <div class="container">
+            <h2>Sobre Nós</h2>
+            <p>Bem-vindo à Bella Itália, onde a tradição italiana encontra o sabor autêntico das melhores pizzas. Nossa missão é proporcionar uma experiência gastronômica única, com ingredientes frescos e receitas tradicionais que encantam o paladar.</p>
+            <p>Desde a nossa fundação, temos nos dedicado a oferecer não apenas uma refeição, mas uma verdadeira celebração da culinária italiana. Cada pizza é feita com amor e cuidado, garantindo que cada mordida seja uma explosão de sabor.</p>
+            <p>Venha nos visitar e descubra por que somos conhecidos como a melhor pizzaria da região!</p>
+        </div>
+    </section> 
     <footer>
         <div class="footer-container">
             <div class="footer-column">
@@ -83,15 +72,7 @@
             </div>
         </div>
     </footer>
-    <div id="carrinho-modal" class="carrinho-modal">
-        <div class="carrinho-conteudo">
-            <h3>Seu Carrinho</h3>
-            <ul id="carrinho-itens"></ul>
-            <button id="finalizar-pedido" class="btn">Finalizar Pedido</button>
-            <button id="fechar-modal" class="btn-btn-secondary">Fechar</button>
-        </div>
-    </div>
-    <div id="loginModal" class="modal hidden">
+        <div id="loginModal" class="modal hidden">
         <div class="modal-content">
             <span class="close">&times;</span>
 
@@ -126,14 +107,6 @@
             </div>
         </div>
     </div>
-
-    <div id="popupAvisoLogin" class="popup hidden">
-        <div class="popup-content">
-            <span class="close-popup">&times;</span>
-            <p>Você precisa estar logado para adicionar ao carrinho.</p>
-            <button id="abrirLoginPopup" class="btn btn-login">Fazer login</button>
-        </div>
-    </div>
-
 </body>
+
 </html>
