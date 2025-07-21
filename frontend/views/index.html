@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +12,11 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/carrinho-modal.css">
     <link rel="stylesheet" href="/css/pizzas.css">
-    <link rel="stylesheet" href="/css/carrinho-modal.css">
-
-
+    <link rel="stylesheet" href="/css/popup.css">
 
     <script src="/js/login.js" defer></script>
     <script src="/js/menu.js" defer></script>
+    <script src="/js/popup.js" defer></script>
 </head>
 <body>
     <header class="header-div">
@@ -41,8 +39,7 @@
             </nav>
         </div>
     </header>
-
-    <section class="apresentacao">
+        <section class="apresentacao">
 
         <div class="content">
             <h1>A melhor Pizza da <br /><span>Região</span></h1>
@@ -169,5 +166,15 @@
             </div>
         </div>
     </footer>
+    <div id="popupAvisoLogin" class="popup hidden">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <p>Você precisa estar logado para adicionar ao carrinho.</p>
+            <button id="abrirLoginPopup">Fazer login</button>
+        </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
