@@ -3,8 +3,8 @@
   background-color: #1d2330;
   padding: 40px 20px;
   display: flex;
-  justify-content: center;   /* centraliza horizontalmente */
-  align-items: center;       /* centraliza verticalmente */
+  justify-content: center;  
+  align-items: center;       
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #4a2c22;
@@ -18,14 +18,14 @@
 }
 
 #sobre-nos h2 {
-  font-size: 42px; /* maior destaque */
+  font-size: 42px; 
   margin-bottom: 30px;
   font-weight: bold;
   color: #ff7a1a;
 }
 
 #sobre-nos p {
-  font-size: 26px; /* aumentou o tamanho da fonte */
+  font-size: 26px; 
   line-height: 1.8;
   margin-bottom: 18px;
   color: #fff;

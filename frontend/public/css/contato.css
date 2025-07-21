@@ -1,0 +1,58 @@
+.contact {
+  height: 140vh;
+  background-color: #1d2330;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+}
+
+.contact .container {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact h3 {
+  font-size: 42px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #ff7a1a;
+}
+
+.contact p {
+  font-size: 26px;
+  line-height: 1.8;
+  margin-bottom: 18px;
+  color: #fff;
+}
+
+.contact .address {
+  margin-top: 30px;
+  color: #fff;
+}
+
+.contact .address h2 {
+  font-size: 32px;
+  margin-bottom: 16px;
+  color: #ff7a1a;
+}
+
+.contact address p,
+.contact address a {
+  font-size: 22px;
+  line-height: 1.6;
+  color: #fff;
+  text-decoration: none;
+}
+
+.contact .map-container {
+  margin-top: 30px;
+  border: 4px solid #ff7a1a;
+  border-radius: 12px;
+  overflow: hidden;
+}

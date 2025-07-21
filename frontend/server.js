@@ -70,6 +70,11 @@ app.get('/confirmacao', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/confirmacao.html'));
 });
 
+// rota para página de contato
+app.get('/contato', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/contato.html'));
+});
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
