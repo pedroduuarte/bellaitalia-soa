@@ -158,15 +158,31 @@ function exibirItensPedido() {
         return;
     }
 
-    itensContainer.innerHTML = carrinho.map(item => `
-        <div class="item-pedido">
+    itensContainer.innerHTML = carrinho.map((item, index) => `
+        <div class="item-pedido" data-index="${index}">
             <div class="item-info">
                 <h4>${item.titulo}</h4>
                 <p class="item-descricao">${item.descricao}</p>
             </div>
-            <div class="item-preco">R$ ${item.valor.toFixed(2)}</div>
-        </div>
+                <div class="item-preco">R$ ${item.valor.toFixed(2)}</div>
+                <button class="btn-remover-item" data-index="${index}" title="Remover item"><img src="/images/trash-icon.png" alt="Remover" class="icone-lixeira" /></button>
+            </div>
     `).join('');
+
+    document.querySelectorAll('.btn-remover-item').forEach(btn => {
+        btn.addEventListener('click', removerItemDoCarrinho);
+    });
+}
+
+function removerItemDoCarrinho(event) {
+    const index = event.currentTarget.dataset.index;
+    if (index !== undefined) {
+        carrinho.splice(index, 1);
+        sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
+        atualizarContadorCarrinho();
+        exibirItensPedido(); 
+        atualizarTotais();
+    }
 }
 
 function calcularTotalCarrinho() {

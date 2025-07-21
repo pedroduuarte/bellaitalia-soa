@@ -53,6 +53,16 @@ h3 {
     margin-left: 1rem;
 }
 
+.btn-remover-item {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 10px;
+    align-self: center;
+}
+
 .carrinho-vazio {
     text-align: center;
     color: #666;
