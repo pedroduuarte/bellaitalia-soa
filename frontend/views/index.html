@@ -27,7 +27,7 @@
                 <ul>
                     <li><a href="/">Início</a></li>
                     <li><a href="/menu">Cardápio</a></li>
-                    <li><a href="/reservas.html">Sobre Nós</a></li>
+                    <li><a href="/sobre">Sobre Nós</a></li>
                     <li><a href="/contato.html">Contato</a></li>
                     <button id="btnOpenLogin" class="btn btn-login">Login</button>
                     <li>
@@ -136,6 +136,14 @@
             </div>
         </div>
     </div>
+        <div id="carrinho-modal" class="carrinho-modal">
+        <div class="carrinho-conteudo">
+            <h3>Seu Carrinho</h3>
+            <ul id="carrinho-itens"></ul>
+            <button id="finalizar-pedido" class="btn">Finalizar Pedido</button>
+            <button id="fechar-modal" class="btn-btn-secondary">Fechar</button>
+        </div>
+    </div>
     <footer>
         <div class="footer-container">
             <div class="footer-column">
@@ -153,7 +161,7 @@
                 <ul>
                     <li><a href="/">Início</a></li>
                     <li><a href="/menu">Cardápio</a></li>
-                    <li><a href="/reservas.html">Sobre Nós</a></li>
+                    <li><a href="sobre.html">Sobre Nós</a></li>
                     <li><a href="/contato.html">Contato</a></li>
                 </ul>
             </div>
@@ -171,7 +179,7 @@
         <div class="popup-content">
             <span class="close-popup">&times;</span>
             <p>Você precisa estar logado para adicionar ao carrinho.</p>
-            <button id="abrirLoginPopup">Fazer login</button>
+            <button id="abrirLoginPopup" class="btn btn-login">Fazer login</button>
         </div>
     </div>
 

@@ -132,9 +132,22 @@ function atualizarUIposLogin() {
 
 function logout() {
   const email = localStorage.getItem('userEmail');
+
+  // Remove dados do usuário e carrinho
   sessionStorage.removeItem(`carrinho_${email}`);
+  sessionStorage.removeItem('carrinho_anonimo'); // ← garante que não carregue lixo depois
+
   localStorage.removeItem("userEmail");
   localStorage.removeItem("userName");
   localStorage.removeItem("token");
-  window.location.href = "/";
+
+  // Limpa memória
+  carrinho = [];
+  atualizarContadorCarrinho();
+  atualizarUIposLogin();
+
+  setTimeout(() => {
+    window.location.href = "/";
+  }, 500);
 }
+

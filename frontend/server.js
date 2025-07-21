@@ -56,6 +56,10 @@ app.get('/pedido', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/pedido.html'));
 });
 
+app.get('/sobre', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/sobre.html'));
+});
+
 
 const PORT = 3000;
 app.listen(PORT, () => {

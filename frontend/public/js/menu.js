@@ -13,15 +13,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const { data: cardapio } = await response.json();
 
-    // filtrar por categorias
     const pizzasTradicionais = cardapio.filter(p => p.tipo === "PizzaTradicional");
     const pizzasDoces = cardapio.filter(p => p.tipo === "PizzaDoce");
-
 
     renderizarCardapio("tradicionais", pizzasTradicionais);
     renderizarCardapio("doces", pizzasDoces);
     renderizarCarrosselPizzas(pizzasTradicionais);
-
 
     adicionarEventosPedido();
     atualizarContadorCarrinho();
@@ -35,7 +32,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     `;
   }
 
-  document.getElementById('carrinho-icon')?.addEventListener('click', mostrarModalCarrinho);
+  // Verificação de login antes de abrir o carrinho
+  const btnCarrinho = document.getElementById('carrinho-icon');
+  if (btnCarrinho) {
+    btnCarrinho.addEventListener('click', (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        const popup = document.getElementById('popupAvisoLogin');
+        popup.classList.remove('hidden');
+        return;
+      }
+
+      mostrarModalCarrinho();
+    });
+  }
+
   document.getElementById('fechar-modal')?.addEventListener('click', esconderModalCarrinho);
   document.getElementById('finalizar-pedido')?.addEventListener('click', () => {
     if (carrinho.length === 0) {
@@ -46,7 +59,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 });
 
-// função para renderizar cada seção do cardápio
 function renderizarCardapio(secaoId, pizzas) {
   const container = document.getElementById(secaoId);
   if (!container) return;
@@ -68,7 +80,6 @@ function renderizarCarrosselPizzas(pizzas) {
   const container = document.getElementById('carousel-items');
   if (!container) return;
 
-  // Agrupa as pizzas em blocos de 3
   const grupos = [];
   for (let i = 0; i < pizzas.length; i += 3) {
     grupos.push(pizzas.slice(i, i + 3));
@@ -94,7 +105,6 @@ function renderizarCarrosselPizzas(pizzas) {
   adicionarEventosPedido();
 }
 
-
 function adicionarEventosPedido() {
   document.querySelectorAll('.btn-pedir').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -102,27 +112,21 @@ function adicionarEventosPedido() {
       const token = localStorage.getItem('token');
 
       if (!token) {
-        // Mostrar o popup avisando que precisa estar logado
         const popup = document.getElementById('popupAvisoLogin');
         popup.classList.remove('hidden');
-
-        // Interrompe aqui para não adicionar ao carrinho
         return;
       }
 
-      // Se estiver logado, adiciona ao carrinho
       const pizzaId = e.target.getAttribute('data-id');
       adicionarAoCarrinho(pizzaId);
     });
   });
 }
 
-
-
 function adicionarAoCarrinho(pizzaId) {
   const itemExistente = carrinho.find(item => item.id === pizzaId);
   if (itemExistente) {
-    if(confirm(`Pizza já está no carrinho. Deseja adicionar mais uma?`)) {
+    if (confirm(`Pizza já está no carrinho. Deseja adicionar mais uma?`)) {
       buscarPizzaPorId(pizzaId).then(pizza => {
         if (pizza) {
           carrinho.push({
@@ -137,13 +141,13 @@ function adicionarAoCarrinho(pizzaId) {
       });
     }
   } else {
-      const pizza = buscarPizzaPorId(pizzaId);
-      if (pizza) {
-        carrinho.push(pizza);
-        atualizarContadorCarrinho();
-        sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
-        alert(`Pizza "${pizza.titulo}" adicionada ao carrinho!`);
-        console.log('Carrinho carregado:', carrinho);
+    const pizza = buscarPizzaPorId(pizzaId);
+    if (pizza) {
+      carrinho.push(pizza);
+      atualizarContadorCarrinho();
+      sessionStorage.setItem(carrinhoKey, JSON.stringify(carrinho));
+      alert(`Pizza "${pizza.titulo}" adicionada ao carrinho!`);
+      console.log('Carrinho carregado:', carrinho);
     }
   }
 }
@@ -181,6 +185,7 @@ function mostrarModalCarrinho() {
       removerItemDoCarrinho(index);
     });
   });
+
   document.getElementById('carrinho-modal').classList.add('show');
 }
 

@@ -1,0 +1,32 @@
+#sobre-nos {
+  height: 80vh;
+  background-color: #1d2330;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;   /* centraliza horizontalmente */
+  align-items: center;       /* centraliza verticalmente */
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #4a2c22;
+}
+
+#sobre-nos .container {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#sobre-nos h2 {
+  font-size: 42px; /* maior destaque */
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #ff7a1a;
+}
+
+#sobre-nos p {
+  font-size: 26px; /* aumentou o tamanho da fonte */
+  line-height: 1.8;
+  margin-bottom: 18px;
+  color: #fff;
+}
