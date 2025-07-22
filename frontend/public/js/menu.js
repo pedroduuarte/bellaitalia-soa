@@ -15,9 +15,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const pizzasTradicionais = cardapio.filter(p => p.tipo === "PizzaTradicional");
     const pizzasDoces = cardapio.filter(p => p.tipo === "PizzaDoce");
+    const bebidas = cardapio.filter(p => p.tipo === "Bebida");
 
     renderizarCardapio("tradicionais", pizzasTradicionais);
     renderizarCardapio("doces", pizzasDoces);
+    renderizarCardapio("bebidas", bebidas);
     renderizarCarrosselPizzas(pizzasTradicionais);
 
     adicionarEventosPedido();

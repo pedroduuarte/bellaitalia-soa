@@ -16,3 +16,8 @@
   padding-bottom: 0.5rem;
 }
 
+.bebidas-img img{
+    margin: 0 auto;
+    height: 250px;
+    width: 250px;
+}
