@@ -4,7 +4,6 @@
     padding: 2rem 1rem;
 }
 
-/* Títulos */
 h2, h3 {
     color: #ff7a1a;
     margin-bottom: 1.5rem;
@@ -20,7 +19,6 @@ h3 {
     font-size: 1.5rem;
 }
 
-/* Seção de itens do pedido */
 .item-pedido {
     display: flex;
     justify-content: space-between;
@@ -70,7 +68,6 @@ h3 {
     padding: 2rem;
 }
 
-/* Formulários */
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -105,7 +102,6 @@ h3 {
     flex: 1;
 }
 
-/* Métodos de pagamento */
 .opcoes-pagamento {
     display: flex;
     flex-direction: column;
@@ -151,7 +147,6 @@ h3 {
     font-style: italic;
 }
 
-/* Resumo do pedido */
 .resumo-pedido {
     background-color: #f9f9f9;
     padding: 1.5rem;
@@ -180,7 +175,6 @@ h3 {
     border-top: 2px solid #ff7a1a;
 }
 
-/* Botão finalizar */
 .btn-finalizar {
     width: 100%;
     padding: 1rem;

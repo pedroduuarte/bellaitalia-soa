@@ -27,7 +27,6 @@
     font-weight: normal;
 }
 
-/* QR Code */
 .qr-code {
     width: 200px;
     height: 200px;
@@ -38,7 +37,6 @@
     background-color: white;
 }
 
-/* Chave PIX */
 #chave-pix {
     display: inline-block;
     font-weight: bold;
@@ -49,7 +47,6 @@
     color: #333;
 }
 
-/* Botões */
 #btn-copiar-pix, #btnJaPaguei {
     display: inline-block;
     padding: 0.8rem 1.5rem;
