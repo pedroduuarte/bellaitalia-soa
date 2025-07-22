@@ -10,6 +10,7 @@ app.use('/api/cardapio', createProxyMiddleware({
     changeOrigin: true
 }));
 
+//endpoint order-service
 app.use('/api/order', createProxyMiddleware({
     target: 'http://localhost:3003',
     changeOrigin: true

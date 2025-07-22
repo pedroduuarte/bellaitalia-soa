@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('Elemento do botão:', document.getElementById('finalizar-pedido-botao'));
     console.log('Carrinho antes de finalizar:', carrinho);
 
-    // Event Listeners
     document.getElementById('carrinho-icon')?.addEventListener('click', mostrarModalCarrinho);
     document.getElementById('fechar-modal')?.addEventListener('click', esconderModalCarrinho);
     document.getElementById('finalizar-pedido-botao')?.addEventListener('click', () => {
@@ -57,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('finalizar-pedido')?.addEventListener('click', irParaPaginaPedido);
 });
 
-// Funções auxiliares
+
 function renderizarCardapio(secaoId, pizzas) {
     const container = document.getElementById(secaoId);
     if (!container) return;
